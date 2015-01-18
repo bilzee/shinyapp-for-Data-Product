@@ -6,7 +6,7 @@ library(shiny)
 shinyUI(pageWithSidebar(
   
   # Application title
-  titlePanel("Pregnancy due date calculator"),
+  titlePanel("Pregnancy Calculator for Due Dates"),
   
   # Sidebar 
   sidebarPanel(

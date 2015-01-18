@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pregnancy Calculator</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Pregnancy Calculator">
+  <meta name="author" content="Bilzee">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Pregnancy Calculator</h1>
+    <h2>For Expected Date of Delivery and onset of spontaneous labour</h2>
+    <p>Bilzee<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Nagele&#39;s Rule</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Expected date of delivery is predicted as 
+
+<ul>
+<li>EDD = LMP + 1 year - 3 months + 7 days </li>
+<li>EDD = LMP + 9 months + 7 days</li>
+</ul></li>
+<li>Where LMP is first day of Last Menstrual Period. 
+(see <a href="http://en.wikipedia.org/wiki/Naegele%27s_rule#Calculation">http://en.wikipedia.org/wiki/Naegele%27s_rule#Calculation</a>). </li>
+<li>Naegele&#39;s Rule is a convenient way to predict expected delivery date because most women know their LMP.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Input, Output and Choice of Prediction Model</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The application has one input and two output; input as a date form while output is simple text </li>
+<li>The application takes input of LMP as a date to be selected from the form</li>
+<li>Using Naegele&#39;s Rule, the application calculates the the Expected Delivery Date </li>
+<li><p>Using agreed results from studies related to the Naegele&#39;s Rule, the likely earliest date for onset of spontaneous labour is predicted with probability given. 
+(see <a href="http://en.wikipedia.org/wiki/Naegele%27s_rule#Average_gestation_of_40_weeks">http://en.wikipedia.org/wiki/Naegele%27s_rule#Average_gestation_of_40_weeks</a>)</p></li>
+<li><p>Given the simplicity of the Naegele&#39;s Rule, there is no need to use a linear model which could be done.</p>
+
+<ul>
+<li>Instead, simple addition and subtraction is used to compute the output</li>
+<li>EDD = LMP + 9 months + 7 days</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Calculation and Error in Formula</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>There are two categories of error in this application&#39;s output: Error in the formula; and Error in the method.</li>
+<li>The formula used to calculate EDD assumes days of the month to be 30.<br>
+
+<ul>
+<li>However in the period of 9 months, there are about 4 to 5 months with 31 days; when February is not among. Since February is more likely to be among the duration, and leap years are not likely, then 28 is assumed for february. This is why the formula adds 3 for error instead of 5. </li>
+</ul></li>
+</ul>
+
+<pre><code class="r">monthInDays &lt;- 9 * 30
+days &lt;- 7
+errorFor31DayMonths &lt;- 3
+SD &lt;- 13
+totalDays &lt;- monthInDays + days + errorFor31DayMonths
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Calculation and Error in Method</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Naegele&#39;s Rule is not a very accurate prediction for EDD method based on empirical result. However it is accurate as the mean of date for onset of spontaneous labour; so that the earliest date could be predicted with probability. The standard deviation from these empirical results is 13 days. </li>
+<li>For example, taking today&#39;s date as LMP, we can make the following predictions</li>
+</ul>
+
+<pre><code class="r">today &lt;- Sys.Date()
+output &lt;- today + totalDays
+output1SD &lt;- today + totalDays - SD
+output2SD &lt;- today + totalDays - 2 * SD
+</code></pre>
+
+<ul>
+<li><p>Below is today&#39;s date, Expected Date of Delivery, date for 68% and 95% probability for onset of spontaneous labour, respectively: </p>
+
+<pre><code>## [1] &quot;2015-01-17&quot; &quot;2015-10-24&quot; &quot;2015-10-11&quot; &quot;2015-09-28&quot;
+</code></pre></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Nagele&#39;s Rule'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Input, Output and Choice of Prediction Model'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Calculation and Error in Formula'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Calculation and Error in Method'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

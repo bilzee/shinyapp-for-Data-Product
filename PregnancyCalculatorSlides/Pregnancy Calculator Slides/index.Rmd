@@ -1,0 +1,72 @@
+---
+title       : Pregnancy Calculator 
+subtitle    : For Expected Date of Delivery and onset of spontaneous labour 
+author      : Bilzee
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Nagele's Rule
+
+- Expected date of delivery is predicted as 
+  * EDD = LMP + 1 year - 3 months + 7 days 
+	* EDD = LMP + 9 months + 7 days
+- Where LMP is first day of Last Menstrual Period. 
+(see http://en.wikipedia.org/wiki/Naegele%27s_rule#Calculation). 
+- Naegele's Rule is a convenient way to predict expected delivery date because most women know their LMP.
+
+--- .class #id 
+
+## Input, Output and Choice of Prediction Model
+
+- The application has one input and two output; input as a date form while output is simple text 
+- The application takes input of LMP as a date to be selected from the form
+- Using Naegele's Rule, the application calculates the the Expected Delivery Date 
+- Using agreed results from studies related to the Naegele's Rule, the likely earliest date for onset of spontaneous labour is predicted with probability given. 
+(see http://en.wikipedia.org/wiki/Naegele%27s_rule#Average_gestation_of_40_weeks)
+
+- Given the simplicity of the Naegele's Rule, there is no need to use a linear model which could be done.
+  * Instead, simple addition and subtraction is used to compute the output
+  * EDD = LMP + 9 months + 7 days
+
+---
+
+## Calculation and Error in Formula
+
+- There are two categories of error in this application's output: Error in the formula; and Error in the method.
+- The formula used to calculate EDD assumes days of the month to be 30.   
+  * However in the period of 9 months, there are about 4 to 5 months with 31 days; when February is not among. Since February is more likely to be among the duration, and leap years are not likely, then 28 is assumed for february. This is why the formula adds 3 for error instead of 5. 
+``` {r}
+monthInDays <- 9 * 30
+days <- 7
+errorFor31DayMonths <- 3
+SD <- 13
+totalDays <- monthInDays + days + errorFor31DayMonths
+```
+
+--- 
+
+## Calculation and Error in Method
+
+- Naegele's Rule is not a very accurate prediction for EDD method based on empirical result. However it is accurate as the mean of date for onset of spontaneous labour; so that the earliest date could be predicted with probability. The standard deviation from these empirical results is 13 days. 
+- For example, taking today's date as LMP, we can make the following predictions
+``` {r} 
+today <- Sys.Date()
+output <- today + totalDays
+output1SD <- today + totalDays - SD
+output2SD <- today + totalDays - 2* SD
+```
+- Below is today's date, Expected Date of Delivery, date for 68% and 95% probability for onset of spontaneous labour, respectively: 
+  ``` {r echo=FALSE}
+  x <- c(today, output, output1SD, output2SD)
+  x
+  ```
+
+
+
+
